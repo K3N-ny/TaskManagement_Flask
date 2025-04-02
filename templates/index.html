@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="container" id="loginPage">
+        <div class="auth-card">
+            <h1>Login</h1>
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" id="loginEmail" placeholder="Email address">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Password">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <button class="primary-button" onclick="login()">Log in</button>
+            <p class="text-center">Don't have an account?</p>
+            <button class="secondary-button" onclick="showSignup()">Sign up</button>
+            <div class="social-login">
+                <button class="social-button google">
+                    <img src="https://www.google.com/favicon.ico" alt="Google">
+                    Sign Up with Google
+                </button>
+                <button class="social-button facebook">
+                    <img src="https://www.facebook.com/favicon.ico" alt="Facebook">
+                    Sign Up with Facebook
+                </button>
+                <button class="social-button apple">
+                    <img src="https://www.apple.com/favicon.ico" alt="Apple">
+                    Sign in with Apple
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="signupPage" style="display:none;">
+        <div class="auth-card">
+            <h1>Sign up</h1>
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" id="firstname" placeholder="First Name">
+            </div>
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="lastname" placeholder="Last Name">
+            </div>
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" id="signupEmail" placeholder="Email address">
+            </div>
+            <div class="form-group phone-input">
+                <label>Phone number</label>
+                <div class="phone-group">
+                    <div class="country-code">
+                        <img src="https://flagcdn.com/w20/gb.png" alt="UK flag" class="flag-icon">
+                        <span>+44</span>
+                    </div>
+                    <input type="tel" id="phone" placeholder="Phone number">
+                </div>
+            </div>
+            <button class="primary-button" onclick="signup()">Sign up</button>
+            <p class="text-center">Already have an account?</p>
+            <button class="secondary-button black" onclick="showLogin()">Log in</button>
+        </div>
+    </div>
+
+    <div class="container" id="taskPage" style="display:none;">
+        <div class="task-header">
+            <h2>Ongoing Tasks</h2>
+            <h2>Upcoming Tasks</h2>
+        </div>
+        <div class="task-container">
+            <div class="task-list" id="ongoingTasks"></div>
+            <div class="task-list" id="completedTasks"></div>
+        </div>
+        <div class="task-actions">
+            <button class="icon" onclick="goHome()">🏠</button>
+            <button class="icon" onclick="refreshTasks()">🔄</button>
+            <button class="icon" onclick="addTask()">➕</button>
+            <button class="icon" onclick="clearTasks()">🗑</button>
+        </div>
+    </div>
+
+    <script>
+        function showSignup() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('signupPage').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('signupPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
+        function goHome() {
+            document.getElementById('taskPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
+        function refreshTasks() {
+            getTasks();
+        }
+
+        function addTask() {
+            let taskText = prompt("Enter your new task:");
+            if (taskText) {
+                fetch('http://localhost:5000/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': token },
+                    body: JSON.stringify({ task: taskText })
+                }).then(() => getTasks());
+            }
+        }
+
+        function clearTasks() {
+            if (confirm("Are you sure you want to delete all tasks?")) {
+                fetch('http://localhost:5000/tasks', {
+                    method: 'DELETE',
+                    headers: { 'Authorization': token }
+                }).then(() => getTasks());
+            }
+        }
+    </script>
+    <script src="static/script.js"></script>
+</body>
+</html>
