@@ -3,13 +3,14 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import jwt
 import datetime
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-# Database Configuration (No Password)
+# Database Configuration (SQLite)
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:new2u@localhost/task_management'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///task_management.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -26,6 +27,7 @@ class User(db.Model):
 # Create Tables
 with app.app_context():
     db.create_all()
+
 class Task(db.Model):
     __tablename__ = 'tasks'
     id = db.Column(db.Integer, primary_key=True)
@@ -36,6 +38,7 @@ class Task(db.Model):
 # Create Tables
 with app.app_context():
     db.create_all()
+
 # Serve index.html
 @app.route('/')
 def home():

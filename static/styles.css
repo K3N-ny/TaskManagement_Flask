@@ -1,15 +1,223 @@
 /* General Styles */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    line-height: 1.5;
+    font-weight: 400;
 }
 
+/* Dashboard styles */
+.dashboard {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+/* Header styles */
+.header {
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile styles */
+.profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Action buttons container */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Action button styles */
+.action-button {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #f0f0f0;
+}
+
+/* Icon styles */
+.icon {
+    width: 24px;
+    height: 24px;
+    color: #666;
+}
+
+/* Main content area */
+.main-content {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Task section styles */
+.task-section {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Section title styles */
+.section-title {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+/* Task list styles */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Task item styles */
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s;
+}
+
+.task-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Task controls container */
+.task-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
+}
+
+/* Selection button styles */
+.select-button {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+}
+
+.select-button:hover {
+    background-color: #e9ecef;
+}
+
+.select-button.selected {
+    background-color: #6b46c1;
+}
+
+.select-button.selected .select-icon {
+    color: white;
+}
+
+/* Select icon styles */
+.select-icon {
+    width: 20px;
+    height: 20px;
+    color: #666;
+}
+
+/* Checkbox container styles */
+.checkbox-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hide default checkbox */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Custom checkbox styles */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 3px;
+}
+
+/* Checkbox hover state */
+.checkbox-container:hover input ~ .checkmark {
+    border-color: #6b46c1;
+}
+
+/* Checkbox checked state */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #6b46c1;
+    border-color: #6b46c1;
+}
+
+/* Checkmark styles */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Show checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Task text styles */
+.task-text {
+    flex-grow: 1;
+    color: #333;
+}
+
+.task-text.selected {
+    color: #6b46c1;
+    font-weight: 500;
+}
+
+/* Completed task styles */
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #666;
+}
+
+/* Keep existing auth styles */
 .container {
     width: 100%;
     max-width: 400px;
@@ -52,11 +260,12 @@ input {
     border-radius: 8px;
     box-sizing: border-box;
     margin: 0;
+    transition: border-color 0.3s ease;
 }
 
 input:focus {
     outline: none;
-    border-color: #000;
+    border-color: #6b46c1;
 }
 
 .phone-input .phone-group {
@@ -92,37 +301,46 @@ input:focus {
 .primary-button {
     width: 100%;
     padding: 12px;
-    background: white;
-    color: black;
-    border: 1px solid #e0e0e0;
+    background-color: #6b46c1;
+    color: white;
+    border: none;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
-    margin-bottom: 16px;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s ease;
 }
 
 .primary-button:hover {
-    background: #f5f5f5;
+    background-color: #553c9a;
 }
 
 .secondary-button {
     width: 100%;
     padding: 12px;
     background: white;
-    color: black;
-    border: none;
+    color: #6b46c1;
+    border: 2px solid #6b46c1;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
     margin-bottom: 24px;
+    transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+    background: #f8f4ff;
 }
 
 .secondary-button.black {
-    background: #000;
+    background: #6b46c1;
     color: white;
+    border: none;
+}
+
+.secondary-button.black:hover {
+    background: #553c9a;
 }
 
 .text-center {
@@ -164,42 +382,154 @@ input:focus {
 
 /* Task page styles */
 .task-header {
+    padding: 0 20px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: bold;
+    align-items: center;
+}
+
+.task-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.header-actions button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.header-actions button:hover {
+    opacity: 1;
+}
+
+.completed-header {
+    margin-top: 20px;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
 }
 
 .task-container {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    flex-direction: column;
+    padding: 0 20px;
 }
 
-.task-list {
-    width: 45%;
-    background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.task-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    gap: 12px;
+}
+
+.task-item .document-icon {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    position: relative;
+}
+
+.task-item .document-icon::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 16px;
+    background: #666;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+}
+
+.task-item .checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.task-item span {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+.task-item .actions {
+    display: flex;
+    gap: 16px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.task-item:hover .actions {
+    opacity: 1;
+}
+
+.task-item button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #666;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.task-item button:hover {
+    color: #333;
 }
 
 .task-actions {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    padding: 20px;
+    border-top: 1px solid #eee;
     margin-top: 20px;
 }
 
-.icon {
+.task-actions button.icon {
+    background: none;
+    border: none;
     font-size: 20px;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 50%;
-    background: purple;
+    padding: 8px;
     cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s;
 }
 
-.icon:hover {
-    background: #d6d6d6;
+.task-actions button.icon:hover {
+    background-color: #f0f0f0;
+}
+
+.forgot-password {
+    display: block;
+    text-align: right;
+    color: #6b46c1;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
 }

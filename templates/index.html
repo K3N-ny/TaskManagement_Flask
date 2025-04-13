@@ -22,20 +22,6 @@
             <button class="primary-button" onclick="login()">Log in</button>
             <p class="text-center">Don't have an account?</p>
             <button class="secondary-button" onclick="showSignup()">Sign up</button>
-            <div class="social-login">
-                <button class="social-button google">
-                    <img src="https://www.google.com/favicon.ico" alt="Google">
-                    Sign Up with Google
-                </button>
-                <button class="social-button facebook">
-                    <img src="https://www.facebook.com/favicon.ico" alt="Facebook">
-                    Sign Up with Facebook
-                </button>
-                <button class="social-button apple">
-                    <img src="https://www.apple.com/favicon.ico" alt="Apple">
-                    Sign in with Apple
-                </button>
-            </div>
         </div>
     </div>
 
@@ -54,15 +40,9 @@
                 <label>Email address</label>
                 <input type="email" id="signupEmail" placeholder="Email address">
             </div>
-            <div class="form-group phone-input">
-                <label>Phone number</label>
-                <div class="phone-group">
-                    <div class="country-code">
-                        <img src="https://flagcdn.com/w20/gb.png" alt="UK flag" class="flag-icon">
-                        <span>+44</span>
-                    </div>
-                    <input type="tel" id="phone" placeholder="Phone number">
-                </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="signupPassword" placeholder="Password">
             </div>
             <button class="primary-button" onclick="signup()">Sign up</button>
             <p class="text-center">Already have an account?</p>
@@ -70,63 +50,48 @@
         </div>
     </div>
 
-    <div class="container" id="taskPage" style="display:none;">
-        <div class="task-header">
-            <h2>Ongoing Tasks</h2>
-            <h2>Upcoming Tasks</h2>
-        </div>
-        <div class="task-container">
-            <div class="task-list" id="ongoingTasks"></div>
-            <div class="task-list" id="completedTasks"></div>
-        </div>
-        <div class="task-actions">
-            <button class="icon" onclick="goHome()">🏠</button>
-            <button class="icon" onclick="refreshTasks()">🔄</button>
-            <button class="icon" onclick="addTask()">➕</button>
-            <button class="icon" onclick="clearTasks()">🗑</button>
-        </div>
+    <div class="dashboard" id="taskPage" style="display:none;">
+        <header class="header">
+            <div class="profile">
+                <img src="https://placekitten.com/100/100" alt="Profile" class="profile-image">
+            </div>
+            <div class="actions">
+                <button class="action-button" onclick="goHome()" title="Logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon">
+                        <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="action-button" onclick="editTask()" title="Update selected tasks">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon">
+                        <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="action-button" onclick="addTask()" title="Add new task">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon">
+                        <path d="M12 4v16m8-8H4" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="action-button" onclick="deleteTask()" title="Delete selected tasks">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="icon">
+                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="task-section">
+                <h2 class="section-title">Ongoing tasks</h2>
+                <div class="task-list" id="ongoingTasks"></div>
+            </section>
+
+            <section class="task-section">
+                <h2 class="section-title">Completed tasks</h2>
+                <div class="task-list" id="completedTasks"></div>
+            </section>
+        </main>
     </div>
 
-    <script>
-        function showSignup() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('signupPage').style.display = 'block';
-        }
-
-        function showLogin() {
-            document.getElementById('signupPage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'block';
-        }
-
-        function goHome() {
-            document.getElementById('taskPage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'block';
-        }
-
-        function refreshTasks() {
-            getTasks();
-        }
-
-        function addTask() {
-            let taskText = prompt("Enter your new task:");
-            if (taskText) {
-                fetch('http://localhost:5000/tasks', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': token },
-                    body: JSON.stringify({ task: taskText })
-                }).then(() => getTasks());
-            }
-        }
-
-        function clearTasks() {
-            if (confirm("Are you sure you want to delete all tasks?")) {
-                fetch('http://localhost:5000/tasks', {
-                    method: 'DELETE',
-                    headers: { 'Authorization': token }
-                }).then(() => getTasks());
-            }
-        }
-    </script>
     <script src="static/script.js"></script>
 </body>
 </html>
